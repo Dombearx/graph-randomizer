@@ -159,6 +159,15 @@
             simulation.alpha(1).restart();
 
             function ticked() {
+                // Fit nodes within the window
+                const width = svg.node().clientWidth;
+                const height = svg.node().clientHeight;
+                
+                nodes.forEach(d => {
+                    d.x = Math.max(10, Math.min(width - 10, d.x));
+                    d.y = Math.max(10, Math.min(height - 10, d.y));
+                });
+
                 link
                     .attr("x1", d => d.source.x)
                     .attr("y1", d => d.source.y)
@@ -169,6 +178,7 @@
                     .attr("transform", d => `translate(${d.x},${d.y})`);
             }
         }
+
 
         function dragstarted(event, d) {
             if (!event.active) simulation.alphaTarget(0.3).restart();
